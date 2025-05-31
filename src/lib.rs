@@ -6,6 +6,7 @@ use windows::Win32::Security::Credentials::{CredDeleteW, CredFree, CredReadW, Cr
 pub struct CredentialManager;
 
 impl CredentialManager {
+
     pub fn store(target_name: &str, token: &str) -> Result<(), Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
         let token_bytes = token.as_bytes();
@@ -32,6 +33,7 @@ impl CredentialManager {
         Ok(())
     }
 
+ 
     pub fn load(target_name: &str) -> Result<String, Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
 
@@ -66,6 +68,7 @@ impl CredentialManager {
             Ok(token)
         }
     }
+
     
     pub fn delete(target_name: &str) -> Result<(), Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
