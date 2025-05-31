@@ -7,7 +7,7 @@ pub struct CredentialManager;
 
 impl CredentialManager {
     /// Сохранить токен в Windows Credential Manager
-    pub fn store_token(target_name: &str, token: &str) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn store(target_name: &str, token: &str) -> Result<(), Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
         let token_bytes = token.as_bytes();
 
@@ -30,12 +30,11 @@ impl CredentialManager {
             CredWriteW(&credential, 0)?;
         }
 
-        println!("Токен успешно сохранен в Credential Manager");
         Ok(())
     }
 
     /// Получить токен из Windows Credential Manager
-    pub fn get_token(target_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+    pub fn load(target_name: &str) -> Result<String, Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
 
         unsafe {
@@ -71,7 +70,7 @@ impl CredentialManager {
     }
 
     /// Удалить токен из Credential Manager
-    pub fn delete_token(target_name: &str) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn delete(target_name: &str) -> Result<(), Box<dyn std::error::Error>> {
         let target_name_wide: Vec<u16> = target_name.encode_utf16().chain(Some(0)).collect();
 
         unsafe {
@@ -82,13 +81,12 @@ impl CredentialManager {
             )?;
         }
 
-        println!("Токен удален из Credential Manager");
         Ok(())
     }
 
     /// Проверить существование токена
-    pub fn token_exists(target_name: &str) -> bool {
-        Self::get_token(target_name).is_ok()
+    pub fn is_exists(target_name: &str) -> bool {
+        Self::load(target_name).is_ok()
     }
 }
 
