@@ -1,5 +1,4 @@
 
-use std::ffi::CString;
 use std::ptr;
 use windows::core::{PCWSTR, PWSTR};
 use windows::Win32::Security::Credentials::{CredDeleteW, CredFree, CredReadW, CredWriteW, CREDENTIALW, CRED_FLAGS, CRED_PERSIST_LOCAL_MACHINE, CRED_TYPE_GENERIC};
